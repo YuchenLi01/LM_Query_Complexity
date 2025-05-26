@@ -1,6 +1,6 @@
 # On the Query Complexity of Verifier-Assisted Language Generation (ICML 2025)
 [Edoardo Botta*](https://www.linkedin.com/in/edoardobotta/),
-[Yuchen Li*](https://yuchenli01.github.io/),
+[Yuchen Li*](https://www.cs.cmu.edu/~yuchenl4/),
 [Aashay Mehta*](https://scholar.google.com/citations?user=SvvzMVUAAAAJ&hl=en),
 [Jordan T. Ash](http://www.jordantash.com/),
 [Cyril Zhang](https://cyrilzhang.com/),
