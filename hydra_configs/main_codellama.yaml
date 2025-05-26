@@ -1,0 +1,38 @@
+defaults:
+  - _self_
+
+model:
+  name: "codellama/CodeLlama-7b-hf"
+
+seed: 0
+
+generation_configs:
+  backtrack_quota: 0
+  backtrack_stride: 0
+  top_p: 1.0
+  temperature: 1.0
+  max_new_tokens: 384  # was 256
+  block_err_pred: False
+  err_pred_threshold: 0.5
+  block_best_of_n: 1
+  redo_backtrack_with_argmax: True
+
+error_predictor:
+  use_groundtruth: False
+  layer: 31
+  num_mlp_layer: 1
+  random: False
+
+fs:  # file system management
+  output_root: ${oc.env:AMLT_DIRSYNC_DIR,local_outputs}
+  output_dir: ${now:%Y-%m-%d_%H-%M-%S}
+  prompts_and_generations_local_path: "data/prompts_and_generations_task10_repeat10_merged.pkl"
+
+hydra:  # Hydra bookkeeping
+  run:
+    dir: ${fs.output_root}/outputs/${fs.output_dir}/0
+  sweep:
+    dir: ${fs.output_root}/multirun/${fs.output_dir}
+    subdir: ${hydra.job.num}
+  job:
+    chdir: True

@@ -1,0 +1,42 @@
+#!/bin/bash
+#SBATCH --job-name=codellama_baseline
+#SBATCH --output=codellama_baseline_%A_t%a.out
+#SBATCH --error=codellama_baseline_%A_t%a.err
+#SBATCH --array=1,2,3,4,5,6
+#SBATCH --partition=array
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=12
+#SBATCH --mem-per-cpu=16G
+#SBATCH --time=2-00:00:00
+#SBATCH --gres=gpu:L40S:1
+
+# Your job commands go here
+cd ~/LM_Query_Complexity/
+conda init
+conda activate handbook
+module load cuda-12.1
+export NCCL_P2P_DISABLE=1
+
+temperature=$(echo "0.2 * $SLURM_ARRAY_TASK_ID" | bc)
+echo "temperature = $temperature"
+
+for top_p in 0.7 0.8 0.9 0.95 1.0
+do
+  for exp_idx in 0 1 2 3 4
+  do
+    python src/main_run_codellama.py \
+      model.name="codellama/CodeLlama-7b-hf" \
+      generation_configs.backtrack_quota=0 \
+      generation_configs.backtrack_stride=0 \
+      generation_configs.top_p=$top_p \
+      generation_configs.temperature="$temperature" \
+      generation_configs.block_err_pred=False \
+      generation_configs.err_pred_threshold=0.9 \
+      error_predictor.use_groundtruth=True \
+      error_predictor.layer=27 \
+      error_predictor.num_mlp_layer=1 \
+      fs.prompts_and_generations_local_path="" \
+      seed=$exp_idx
+  done
+done

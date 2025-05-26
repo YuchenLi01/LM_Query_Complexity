@@ -1,0 +1,50 @@
+
+                corpus:
+                    train_corpus_loc: data/dyck_k2_0.2_0.8_m12_len32.train
+                    dev_corpus_loc: data/dyck_k2_0.2_0.8_m12_len32.dev
+                    ood_eval_corpus_loc: data/dyck_k2_0.8_0.2_m12_len32.dev
+                language:
+                    name: dyck_k2_0.2_0.8_m12_len32
+                    bracket_types: 2
+                    type_probs: 0.2_0.8
+                    train_length: 32
+                    train_max_stack_depth: 12
+                    train_sample_count: 300000
+                    dev_length: 32
+                    dev_max_stack_depth: 12
+                    dev_sample_count: 10000
+                    ood_eval_length: 32
+                    ood_eval_max_stack_depth: 12
+                    ood_eval_type_probs: 0.8_0.2
+                    ood_eval_sample_count: 10000
+                lm:
+                    lm_name: dim512_depth12_heads8
+                    lm_type: x_transformers
+                    dim: 512
+                    num_layers: 6
+                    save_path: lm.params
+                    num_heads: 8
+                    bos_token_id: 4
+                    eos_token_id: 5
+                reporting:
+                    reporting_loc: ./trained_models/dyck_k2_0.2_0.8_m12_len32/dim512_depth12_heads8/batch1024_lr0.0003_wd0.1_warmup100/
+                    plot_attention_dir: ./plot_attention/dyck_k2_0.2_0.8_m12_len32/dim512_depth12_heads8/batch1024_lr0.0003_wd0.1_warmup100/
+                    inspect_results_dir: ./inspect_results/dyck_k2_0.2_0.8_m12_len32/dim512_depth12_heads8/batch1024_lr0.0003_wd0.1_warmup100/
+                    num_sentences_to_plot: 5
+                    steps_between_evals: 100
+                    log_all_steps_until: 0  # log all the first several steps to wandb
+                training:
+                    train_name: batch1024_lr0.0003_wd0.1_warmup100
+                    batch_size: 1024
+                    dropout: 0.0
+                    optimizer: Adam  # Adam or SGD
+                    learning_rate: 0.0003
+                    warmup: 100
+                    weight_decay: 0.1
+                    num_iters: 0
+                    seed: 0
+                    objective: default  # default or contrastive or multi
+                experiment:
+                    repeat: 2  # number of times to re-train the model
+                name: dyck_k2_0.2_0.8_m12_len32/dim512_depth12_heads8/batch1024_lr0.0003_wd0.1_warmup100
+                
