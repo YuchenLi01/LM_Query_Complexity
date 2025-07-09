@@ -679,6 +679,7 @@ if __name__ == '__main__':
                 dyck_train,
                 model,
                 cmd_args.top_p,
+                1.0,  # temperature
                 args=args,
             )
 

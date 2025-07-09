@@ -52,8 +52,8 @@ def plot_prefix_rep(model, sequences, dyck, ds_tokens, save_dir, ood_results=Non
     print('shape of all_intermediates_concat:', len(all_intermediates_concat), len(all_intermediates_concat[0]))
 
     # TODO: detokenize ood_results, convert to batch tensor, send to `nn_intermediates`, extract rep again
+    seq_to_color = {}
     if ood_results is not None:
-        seq_to_color = {}
         for prefix_length in ood_results:
             for row_idx, prefix in enumerate(ood_results[prefix_length]['prefix']):
                 error_type = ood_results[prefix_length]['error'][row_idx]
@@ -76,6 +76,7 @@ def plot_prefix_rep(model, sequences, dyck, ds_tokens, save_dir, ood_results=Non
         print('shape of error_prefixes_intermediates:', len(error_prefixes_intermediates), len(error_prefixes_intermediates[0]))
     else:
         error_prefixes_intermediates = []
+        error_prefixes_tokenized = []
     # error_prefixes_intermediates_concat = []
     # for rep in error_prefixes_intermediates:
     #     error_prefixes_intermediates_concat += rep
