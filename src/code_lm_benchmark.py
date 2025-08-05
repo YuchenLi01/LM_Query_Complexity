@@ -503,12 +503,13 @@ class GenerateTestCaseTask:
             j += 1
 
         k = j + 1
-        while k < len(token_ids) + 1:
-            # Find the error token by checking if adding the current token the
-            # line output so far makes the length exceed the error index
-            if len(tokenizer.decode(token_ids[j: k])) > char_idx:
-                break
-            k += 1
+        if char_idx is not None:  # TODO: if char_idx is None, the returned index of error token will be inaccurate
+            while k < len(token_ids) + 1:
+                # Find the error token by checking if adding the current token the
+                # line output so far makes the length exceed the error index
+                if len(tokenizer.decode(token_ids[j: k])) > char_idx:
+                    break
+                k += 1
 
         if verbose >= 1:
             # Error is that we stopped generating
